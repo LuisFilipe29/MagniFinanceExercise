@@ -4,14 +4,16 @@ using MagniFinanceExercise.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MagniFinanceExercise.Migrations
 {
     [DbContext(typeof(MagniFinanceExerciseContext))]
-    partial class MagniFinanceExerciseContextModelSnapshot : ModelSnapshot
+    [Migration("20230906131742_start")]
+    partial class start
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

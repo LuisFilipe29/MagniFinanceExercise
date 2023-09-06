@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MagniFinanceExercise.Models
 {
-    public class Aluno
+    public class Prof
     {
         [Key]
         public int Id { get; set; }
@@ -20,20 +20,8 @@ namespace MagniFinanceExercise.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public Nullable<System.DateTime> Birthdate { get; set; }
 
-        [Required(ErrorMessage = "Insira o número da matricula")]
-        [Display(Name = "Número Matricula")]
-        public int Num_Matricula { get; set; }
-
-
-        [Required(ErrorMessage = "Escolha um curso")]
-        [ForeignKey("Curso")]
-        [Display(Name = "Curso")]
-        public int CursoId { get; set; }
-
-        public Curso curso { get; set; }
-
-        [Required]
-        [Display(Name = "Nota")]
-        public int Valor { get; set; }
+        [Required(ErrorMessage = "Insira o salário")]
+        [Display(Name = "Salário")]
+        public int Salário { get; set; }
     }
 }

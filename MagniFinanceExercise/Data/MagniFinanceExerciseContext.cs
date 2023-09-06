@@ -20,8 +20,6 @@ namespace MagniFinanceExercise.Data
 
         public DbSet<MagniFinanceExercise.Models.Disciplina> Disciplina { get; set; }
 
-        public DbSet<MagniFinanceExercise.Models.Professor> Professor { get; set; }
-
-        public DbSet<MagniFinanceExercise.Models.Nota> Nota { get; set; }
+        public DbSet<MagniFinanceExercise.Models.Prof> Prof { get; set; }
     }
 }

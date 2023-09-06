@@ -19,21 +19,6 @@ namespace MagniFinanceExercise.Models
         [Display(Name = "Professor")]
         public int ProfessorId { get; set; }
 
-        public Professor Professor { get; set; }
-
-
-        [Required(ErrorMessage = "Escolha um aluno")]
-        [ForeignKey("Aluno")]
-        [Display(Name = "Aluno")]
-        public int AlunoId { get; set; }
-
-        public Aluno Aluno { get; set; }
-
-        [Required]
-        [ForeignKey("Nota")]
-        [Display(Name = "Nota")]
-        public int NotaId { get; set; }
-
-        public Nota Nota { get; set; }
+        public Prof Professor { get; set; }
     }
 }
