@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MagniFinanceExercise.Models.Curso>
+
+@{
+    ViewData["Title"] = "Cursos";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Criar Novo Curso</a>
+</p>
+
+<h1><a asp-controller="Professor" asp-action="Index">Professores</a></h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor.Salário)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor.Birthdate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Professor.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Professor.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Professor.Salário)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Professor.Birthdate)
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<br />
+
+<h1><a asp-controller="Aluno" asp-action="Index">Alunos</a></h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Aluno.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aluno.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aluno.Birthdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aluno.Num_Matricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aluno.curso.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aluno.curso.Nota.Valor)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aluno.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aluno.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aluno.Birthdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aluno.Num_Matricula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aluno.curso.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aluno.curso.Nota.Valor)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

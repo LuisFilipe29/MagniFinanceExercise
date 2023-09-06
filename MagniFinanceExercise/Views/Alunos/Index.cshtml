@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MagniFinanceExercise.Models.Curso>
+﻿@model IEnumerable<MagniFinanceExercise.Models.Aluno>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Professor)
+                @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Aluno)
+                @Html.DisplayNameFor(model => model.Birthdate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.disciplina)
+                @Html.DisplayNameFor(model => model.Num_Matricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CursoId)
             </th>
             <th></th>
         </tr>
@@ -28,13 +31,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Professor.Nome)
+                @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Aluno.Nome)
+                @Html.DisplayFor(modelItem => item.Birthdate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.disciplina.Nome)
+                @Html.DisplayFor(modelItem => item.Num_Matricula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CursoId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

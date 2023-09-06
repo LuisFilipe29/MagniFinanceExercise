@@ -24,11 +24,12 @@ namespace MagniFinanceExercise.Models
         [Display(Name = "Número Matricula")]
         public int Num_Matricula { get; set; }
 
-        [Required(ErrorMessage = "Escolha uma disciplina")]
-        [ForeignKey("Disciplina")]
-        [Display(Name = "Disciplina")]
-        public int DisciplinaId { get; set; }
 
-        public Disciplina disciplina { get; set; }
+        [Required(ErrorMessage = "Escolha um curso")]
+        [ForeignKey("Curso")]
+        [Display(Name = "Curso")]
+        public int CursoId { get; set; }
+
+        public Curso curso { get; set; }
     }
 }

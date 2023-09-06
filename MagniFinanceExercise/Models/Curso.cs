@@ -9,6 +9,11 @@ namespace MagniFinanceExercise.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Escreva um nome")]
+        [StringLength(50, MinimumLength = 3)]
+        [Display(Name = "Nome")]
+        public string Nome { get; set; }
+
         [Required(ErrorMessage = "Escolha um professor")]
         [ForeignKey("Professor")]
         [Display(Name = "Professor")]
@@ -24,11 +29,11 @@ namespace MagniFinanceExercise.Models
 
         public Aluno Aluno { get; set; }
 
-        [Required(ErrorMessage = "Escolha uma disciplina")]
-        [ForeignKey("Disciplina")]
-        [Display(Name = "Disciplina")]
-        public int DisciplinaId { get; set; }
+        [Required]
+        [ForeignKey("Nota")]
+        [Display(Name = "Nota")]
+        public int NotaId { get; set; }
 
-        public Disciplina disciplina { get; set; }
+        public Nota Nota { get; set; }
     }
 }

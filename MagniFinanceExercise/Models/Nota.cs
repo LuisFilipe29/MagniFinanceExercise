@@ -15,12 +15,12 @@ namespace MagniFinanceExercise.Models
 
         public Aluno Aluno { get; set; }
 
-        [Required(ErrorMessage = "Escolha uma disciplina")]
-        [ForeignKey("Disciplina")]
-        [Display(Name = "Disciplina")]
-        public int DisciplinaId { get; set; }
+        [Required(ErrorMessage = "Escolha um curso")]
+        [ForeignKey("Curso")]
+        [Display(Name = "Curso")]
+        public int CursoId { get; set; }
 
-        public Disciplina disciplina { get; set; }
+        public Curso curso { get; set; }
 
         [Required(ErrorMessage = "Insira o valor")]
         [Display(Name = "Valor")]
