@@ -8,25 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using MagniFinanceExercise.Data;
 using MagniFinanceExercise.Models;
 
-namespace MagniFinanceExercise
+namespace MagniFinanceExercise.Controllers
 {
-    public class AlunoController : Controller
+    public class CursoController : Controller
     {
         private readonly MagniFinanceExerciseContext _context;
 
-        public AlunoController(MagniFinanceExerciseContext context)
+        public CursoController(MagniFinanceExerciseContext context)
         {
             _context = context;
         }
 
-        // GET: Aluno
+        // GET: Curso
         public async Task<IActionResult> Index()
         {
-            var magniFinanceExerciseContext = _context.Aluno.Include(a => a.disciplina);
+            var magniFinanceExerciseContext = _context.Curso.Include(c => c.Aluno).Include(c => c.Professor).Include(c => c.disciplina);
             return View(await magniFinanceExerciseContext.ToListAsync());
         }
 
-        // GET: Aluno/Details/5
+        // GET: Curso/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +34,48 @@ namespace MagniFinanceExercise
                 return NotFound();
             }
 
-            var aluno = await _context.Aluno
-                .Include(a => a.disciplina)
+            var curso = await _context.Curso
+                .Include(c => c.Aluno)
+                .Include(c => c.Professor)
+                .Include(c => c.disciplina)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (aluno == null)
+            if (curso == null)
             {
                 return NotFound();
             }
 
-            return View(aluno);
+            return View(curso);
         }
 
-        // GET: Aluno/Create
+        // GET: Curso/Create
         public IActionResult Create()
         {
+            ViewData["AlunoId"] = new SelectList(_context.Aluno, "Id", "Nome");
+            ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "Id", "Nome");
             ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome");
             return View();
         }
 
-        // POST: Aluno/Create
+        // POST: Curso/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Birthdate,Num_Matricula,Nota,DisciplinaId")] Aluno aluno)
+        public async Task<IActionResult> Create([Bind("Id,ProfessorId,AlunoId,DisciplinaId")] Curso curso)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(aluno);
+                _context.Add(curso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", aluno.DisciplinaId);
-            return View(aluno);
+            ViewData["AlunoId"] = new SelectList(_context.Aluno, "Id", "Nome", curso.AlunoId);
+            ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "Id", "Nome", curso.ProfessorId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", curso.DisciplinaId);
+            return View(curso);
         }
 
-        // GET: Aluno/Edit/5
+        // GET: Curso/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +83,25 @@ namespace MagniFinanceExercise
                 return NotFound();
             }
 
-            var aluno = await _context.Aluno.FindAsync(id);
-            if (aluno == null)
+            var curso = await _context.Curso.FindAsync(id);
+            if (curso == null)
             {
                 return NotFound();
             }
-            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", aluno.DisciplinaId);
-            return View(aluno);
+            ViewData["AlunoId"] = new SelectList(_context.Aluno, "Id", "Nome", curso.AlunoId);
+            ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "Id", "Nome", curso.ProfessorId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", curso.DisciplinaId);
+            return View(curso);
         }
 
-        // POST: Aluno/Edit/5
+        // POST: Curso/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Birthdate,Num_Matricula,Nota,DisciplinaId")] Aluno aluno)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfessorId,AlunoId,DisciplinaId")] Curso curso)
         {
-            if (id != aluno.Id)
+            if (id != curso.Id)
             {
                 return NotFound();
             }
@@ -102,12 +110,12 @@ namespace MagniFinanceExercise
             {
                 try
                 {
-                    _context.Update(aluno);
+                    _context.Update(curso);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlunoExists(aluno.Id))
+                    if (!CursoExists(curso.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +126,13 @@ namespace MagniFinanceExercise
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", aluno.DisciplinaId);
-            return View(aluno);
+            ViewData["AlunoId"] = new SelectList(_context.Aluno, "Id", "Nome", curso.AlunoId);
+            ViewData["ProfessorId"] = new SelectList(_context.Set<Professor>(), "Id", "Nome", curso.ProfessorId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", curso.DisciplinaId);
+            return View(curso);
         }
 
-        // GET: Aluno/Delete/5
+        // GET: Curso/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +140,33 @@ namespace MagniFinanceExercise
                 return NotFound();
             }
 
-            var aluno = await _context.Aluno
-                .Include(a => a.disciplina)
+            var curso = await _context.Curso
+                .Include(c => c.Aluno)
+                .Include(c => c.Professor)
+                .Include(c => c.disciplina)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (aluno == null)
+            if (curso == null)
             {
                 return NotFound();
             }
 
-            return View(aluno);
+            return View(curso);
         }
 
-        // POST: Aluno/Delete/5
+        // POST: Curso/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var aluno = await _context.Aluno.FindAsync(id);
-            _context.Aluno.Remove(aluno);
+            var curso = await _context.Curso.FindAsync(id);
+            _context.Curso.Remove(curso);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlunoExists(int id)
+        private bool CursoExists(int id)
         {
-            return _context.Aluno.Any(e => e.Id == id);
+            return _context.Curso.Any(e => e.Id == id);
         }
     }
 }

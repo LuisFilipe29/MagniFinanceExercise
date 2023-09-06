@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MagniFinanceExercise.Data;
 using MagniFinanceExercise.Models;
 
-namespace MagniFinanceExercise
+namespace MagniFinanceExercise.Controllers
 {
     public class DisciplinaController : Controller
     {

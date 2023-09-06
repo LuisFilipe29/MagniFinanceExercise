@@ -8,24 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using MagniFinanceExercise.Data;
 using MagniFinanceExercise.Models;
 
-namespace MagniFinanceExercise
+namespace MagniFinanceExercise.Controllers
 {
-    public class ProfessorController : Controller
+    public class AlunoController : Controller
     {
         private readonly MagniFinanceExerciseContext _context;
 
-        public ProfessorController(MagniFinanceExerciseContext context)
+        public AlunoController(MagniFinanceExerciseContext context)
         {
             _context = context;
         }
 
-        // GET: Professor
+        // GET: Aluno
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Professor.ToListAsync());
+            var magniFinanceExerciseContext = _context.Aluno.Include(a => a.disciplina);
+            return View(await magniFinanceExerciseContext.ToListAsync());
         }
 
-        // GET: Professor/Details/5
+        // GET: Aluno/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace MagniFinanceExercise
                 return NotFound();
             }
 
-            var professor = await _context.Professor
+            var aluno = await _context.Aluno
+                .Include(a => a.disciplina)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (professor == null)
+            if (aluno == null)
             {
                 return NotFound();
             }
 
-            return View(professor);
+            return View(aluno);
         }
 
-        // GET: Professor/Create
+        // GET: Aluno/Create
         public IActionResult Create()
         {
+            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome");
             return View();
         }
 
-        // POST: Professor/Create
+        // POST: Aluno/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Birthdate,Salário")] Professor professor)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Birthdate,Num_Matricula,Nota,DisciplinaId")] Aluno aluno)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(professor);
+                _context.Add(aluno);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(professor);
+            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", aluno.DisciplinaId);
+            return View(aluno);
         }
 
-        // GET: Professor/Edit/5
+        // GET: Aluno/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace MagniFinanceExercise
                 return NotFound();
             }
 
-            var professor = await _context.Professor.FindAsync(id);
-            if (professor == null)
+            var aluno = await _context.Aluno.FindAsync(id);
+            if (aluno == null)
             {
                 return NotFound();
             }
-            return View(professor);
+            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", aluno.DisciplinaId);
+            return View(aluno);
         }
 
-        // POST: Professor/Edit/5
+        // POST: Aluno/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Birthdate,Salário")] Professor professor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Birthdate,Num_Matricula,Nota,DisciplinaId")] Aluno aluno)
         {
-            if (id != professor.Id)
+            if (id != aluno.Id)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace MagniFinanceExercise
             {
                 try
                 {
-                    _context.Update(professor);
+                    _context.Update(aluno);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProfessorExists(professor.Id))
+                    if (!AlunoExists(aluno.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace MagniFinanceExercise
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(professor);
+            ViewData["DisciplinaId"] = new SelectList(_context.Set<Disciplina>(), "Id", "Nome", aluno.DisciplinaId);
+            return View(aluno);
         }
 
-        // GET: Professor/Delete/5
+        // GET: Aluno/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +130,31 @@ namespace MagniFinanceExercise
                 return NotFound();
             }
 
-            var professor = await _context.Professor
+            var aluno = await _context.Aluno
+                .Include(a => a.disciplina)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (professor == null)
+            if (aluno == null)
             {
                 return NotFound();
             }
 
-            return View(professor);
+            return View(aluno);
         }
 
-        // POST: Professor/Delete/5
+        // POST: Aluno/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var professor = await _context.Professor.FindAsync(id);
-            _context.Professor.Remove(professor);
+            var aluno = await _context.Aluno.FindAsync(id);
+            _context.Aluno.Remove(aluno);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProfessorExists(int id)
+        private bool AlunoExists(int id)
         {
-            return _context.Professor.Any(e => e.Id == id);
+            return _context.Aluno.Any(e => e.Id == id);
         }
     }
 }
